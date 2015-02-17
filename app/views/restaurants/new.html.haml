@@ -1,6 +1,8 @@
-= form_for Restaurant.new do |f|
+= form_for @restaurant do |f|
   = f.label :name
   = f.text_field :name
   = f.label :stars
   = f.text_field :stars
+  = f.label :description
+  = f.text_field :description
   = f.submit

@@ -31,6 +31,17 @@ feature 'restaurants' do
       expect(current_path).to eq  '/restaurants'
     end
   end
+  
+  context 'viewing restaurants' do
+    
+    let!(:tfd) { Restaurant.create(name:'The Fat Duck')}
 
+    scenario 'lets a user view a restaurant' do
+      visit '/restaurants'
+      click_link 'The Fat Duck'
+      expect(page).to have_content 'The Fat Duck'
+      expect(current_path).to eq "/restaurants/#{tfd.id}"
+    end
+  end
 end
 
