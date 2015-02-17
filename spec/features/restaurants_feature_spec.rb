@@ -31,9 +31,9 @@ feature 'restaurants' do
       expect(current_path).to eq  '/restaurants'
     end
   end
-  
+
   context 'viewing restaurants' do
-    
+
     let!(:tfd) { Restaurant.create(name:'The Fat Duck')}
 
     scenario 'lets a user view a restaurant' do
@@ -41,6 +41,19 @@ feature 'restaurants' do
       click_link 'The Fat Duck'
       expect(page).to have_content 'The Fat Duck'
       expect(current_path).to eq "/restaurants/#{tfd.id}"
+    end
+  end
+
+  context 'editing restaurants' do
+    before {Restaurant.create name: 'The Fat Duck'}
+
+    scenario 'let a user edit a restaurant' do
+      visit '/restaurants'
+      click_link "Edit The Fat Duck"
+      fill_in 'Name', with: "The Fat Squirrel"
+      click_button 'Update Restaurant'
+      expect(page).to have_content 'The Fat Squirrel'
+      expect(current_path).to eq '/restaurants'
     end
   end
 end
