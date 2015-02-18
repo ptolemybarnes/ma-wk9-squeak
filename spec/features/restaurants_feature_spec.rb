@@ -39,6 +39,7 @@ feature 'restaurants' do
         expect(page).not_to have_css 'h2', text: 'kf'
         expect(page).to have_content 'error'
       end
+
     end
   end
 
@@ -77,5 +78,7 @@ feature 'restaurants' do
       expect(page).to have_content 'Restaurant deleted successfully'
     end
   end
+
+
 end
 
