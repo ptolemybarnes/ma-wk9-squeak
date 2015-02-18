@@ -28,6 +28,18 @@ feature 'restaurants' do
       expect(page).to have_content 'The Fat Duck'
       expect(current_path).to eq  '/restaurants'
     end
+
+    context 'is invalid when' do
+
+      scenario 'submitted name is too short' do
+        visit '/restaurants'
+        click_link 'Add a restaurant'
+        fill_in 'Name', with: 'kf'
+        click_button 'Create Restaurant'
+        expect(page).not_to have_css 'h2', text: 'kf'
+        expect(page).to have_content 'error'
+      end
+    end
   end
 
   context 'viewing restaurants' do
