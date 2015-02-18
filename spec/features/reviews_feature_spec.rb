@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 feature 'reviewing' do
   let!(:mamathai) {Restaurant.create name: 'Mama Thai' }
 
@@ -13,4 +11,7 @@ feature 'reviewing' do
     expect(current_path).to eq('/restaurants')
     expect(page).to have_content("Some things in life I will never get thai'd of...")
   end
+
+
+
 end
