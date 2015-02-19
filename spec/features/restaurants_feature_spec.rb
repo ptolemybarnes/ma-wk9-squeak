@@ -1,7 +1,5 @@
 feature 'Restaurants' do
 
-  let!(:user) { create_user } 
-
   context 'when I am on the restaurants page' do
 
     scenario 'I see a prompt to add a restaurant' do
@@ -52,7 +50,7 @@ feature 'Restaurants' do
       expect(page).to have_content 'error'
     end
 
-    scenario 'only when user I am logged in' do
+    scenario 'I have to be logged in to do so' do
       visit '/restaurants'
       click_link 'Sign out'
 
