@@ -1,5 +1,5 @@
 feature 'reviewing' do
-  let!(:mamathai) {Restaurant.create name: 'Mama Thai' }
+  let!(:mamathai) { create_user.restaurants.create name: 'Mama Thai' }
 
   scenario 'users can leave a review' do
     visit '/restaurants'
@@ -12,6 +12,12 @@ feature 'reviewing' do
     expect(page).to have_content("Some things in life I will never get thai'd of...")
   end
 
-
+  def create_user
+     user = User.new(email: 'example@test.com', password: 'password',
+                         password_confirmation: 'password')
+     user.save
+     user 
+  end
+ 
 
 end
