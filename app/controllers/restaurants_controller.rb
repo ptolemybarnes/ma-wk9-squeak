@@ -29,7 +29,7 @@ class RestaurantsController < ApplicationController
   def edit
     @restaurant = Restaurant.find(params[:id])
     unless current_user.restaurants.find_by id: @restaurant.id
-      flash.notice ="Error: You must be the author to edit a review"  
+      flash.notice ="Error: You must be the author to edit a restaurant"  
       redirect_to restaurants_path
     end
   end
@@ -43,10 +43,13 @@ class RestaurantsController < ApplicationController
 
   def destroy
     @restaurant = Restaurant.find(params[:id])
-    @restaurant.destroy
-    flash[:notice] = 'Restaurant deleted successfully'
-    redirect_to '/restaurants'
-
+    unless current_user.restaurants.find_by id: @restaurant.id
+      flash.notice = "Error: you are not the author of the entry for #{@restaurant.name}"
+    else
+      @restaurant.destroy
+      flash[:notice] = 'Restaurant deleted successfully'
+    end
+      redirect_to restaurants_path
   end
 
 end

@@ -2,8 +2,8 @@ feature 'restaurants' do
 
   let!(:user) { create_user } 
 
-  context 'no restaurants have been added' do
-    scenario 'should display a prompt to add a restaurant' do
+  context 'when no restaurants are listed' do
+    scenario 'page displays a prompt to add a restaurant' do
       visit '/restaurants'
       expect(page).to have_content 'No restaurants'
       expect(page).to have_link    'Add a restaurant'
@@ -12,7 +12,7 @@ feature 'restaurants' do
 
   context 'restaurants have been added' do
     before do
-      user.restaurants.create(name: 'The Fat Duck')
+      create(:restaurant, name: 'The Fat Duck')
     end
 
     scenario 'display restaurants' do
@@ -100,6 +100,18 @@ feature 'restaurants' do
       expect(page).not_to have_content 'Hummus Bros'
       expect(page).to have_content 'Restaurant deleted successfully'
     end
+
+    scenario 'returns error unless restaurant was authored by current user' do
+      user     = create(:user)
+      create(:restaurant, name: 'The Jolly Sailor', user: user)
+      new_user = create(:user, email: "john@email.com")
+      sign_in_as(new_user)
+
+      visit '/restaurants'
+      click_link 'Delete The Jolly Sailor'
+
+      expect(page).to have_content 'Error:'
+    end
   end
 
   context 'retaurants can be created' do
@@ -116,6 +128,14 @@ feature 'restaurants' do
     click_link 'Sign in'
     fill_in 'Email', with: 'example@test.com'
     fill_in 'Password', with: 'password'
+    click_button 'Log in'
+  end
+
+  def sign_in_as(user)
+    visit '/restaurants'
+    click_link 'Sign in'
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
     click_button 'Log in'
   end
 
