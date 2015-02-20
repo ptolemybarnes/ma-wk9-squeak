@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Restaurant, :type => :model do
 
-  let!(:user) { create_user } 
+  let!(:user) { create(:user) } 
 
   context 'is invalid ' do
     it 'with a name of less than three characters' do
@@ -29,14 +29,30 @@ describe Restaurant, :type => :model do
       restaurant = user.restaurants.create(name: 'Duke of Wellington', rating: 3, stars: 5)
       expect(restaurant.valid?).to eq(true)
     end
+
   end
 
-  def create_user
-     user = User.new(email: 'example@test.com', password: 'password',
-                         password_confirmation: 'password')
-     user.save
-     user 
-  end
+  describe '#average_rating' do
 
+      let(:restaurant) { create(:restaurant, name: 'The Ivy', 
+                                user: create(:user, email: 'user@hotmail.com'))}
+
+    context 'when there are no reviews' do
+
+      it "returns 'N/A'" do
+        expect(restaurant.average_rating).to eq 'N/A'
+      end
+    end
+
+    context 'when there are reviews' do
+
+      it "returns the average" do
+        create(:review, restaurant: restaurant, rating: 3 ) 
+        create(:review, restaurant: restaurant, rating: 1 )
+
+        expect(restaurant.average_rating).to eq 2
+      end
+    end
+  end
 end
 
