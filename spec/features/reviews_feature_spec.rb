@@ -23,7 +23,7 @@ feature 'Reviewing' do
 
       visit '/restaurants'
 
-      expect(page).to have_content('Average Rating: 4')
+      expect(page).to have_content('Average Rating: ★★★★☆')
     end
   end
 end

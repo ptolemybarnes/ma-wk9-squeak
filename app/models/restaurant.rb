@@ -6,6 +6,6 @@ class Restaurant < ActiveRecord::Base
 
   def average_rating
     return 'N/A' if self.reviews.empty?
-    self.reviews.inject(0) {|sum, review| sum + review.rating } / self.reviews.count
+    self.reviews.average(:rating)
   end
 end
