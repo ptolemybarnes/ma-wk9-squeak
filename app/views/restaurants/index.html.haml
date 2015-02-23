@@ -15,7 +15,7 @@
       Review for
       = restaurant.name
     %p
-      Average Rating: #{restaurant.average_rating} 
+      Average Rating: #{star_rating(restaurant.average_rating)} 
 
     - if restaurant.reviews.any?
       %ul
