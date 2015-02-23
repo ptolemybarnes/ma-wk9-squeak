@@ -4,6 +4,7 @@
     = link_to "Edit #{restaurant.name}"  , edit_restaurant_path(restaurant)
     = link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete
     = link_to "Review #{restaurant.name}", new_restaurant_review_path(restaurant)
+    
 - else
   No restaurants yet
 
@@ -23,5 +24,8 @@
           %li
             = review.thoughts
             %strong = review.rating
+            %p= pluralize review.endorsements.count, 'Endorsement'
+            = link_to "Endorse this review of #{restaurant.name}", 
+              review_endorsements_path(review), method: :post
     - else
       %p No reviews
