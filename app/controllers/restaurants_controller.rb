@@ -43,13 +43,12 @@ class RestaurantsController < ApplicationController
 
   def destroy
     @restaurant = Restaurant.find(params[:id])
-    unless current_user.restaurants.find_by id: @restaurant.id
-      flash.notice = "Error: you are not the author of the entry for #{@restaurant.name}"
-    else
-      @restaurant.destroy
+    if @restaurant.destroy_as current_user
       flash[:notice] = 'Restaurant deleted successfully'
+    else
+      flash.notice = "Error: you are not the author of the entry for #{@restaurant.name}"
     end
-      redirect_to restaurants_path
+    redirect_to restaurants_path
   end
 
 end

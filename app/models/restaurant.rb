@@ -8,4 +8,11 @@ class Restaurant < ActiveRecord::Base
     return 'N/A' if self.reviews.empty?
     self.reviews.average(:rating)
   end
+
+  def destroy_as(user)
+    return false unless user_id === user.id
+    destroy
+    true
+  end
+
 end
