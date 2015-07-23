@@ -10,7 +10,7 @@ class Restaurant < ActiveRecord::Base
   end
 
   def destroy_as(user)
-    return false unless user_id === user.id
+    return false unless self.user == user
     destroy
     true
   end
